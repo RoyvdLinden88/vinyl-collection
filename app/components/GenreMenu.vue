@@ -13,7 +13,7 @@ function pick(name: string | null) {
   <div class="genre">
     <button
       type="button"
-      class="toggle"
+      class="toggle glass"
       :class="{ active: model }"
       :aria-expanded="open"
       @click="open = !open"
@@ -59,17 +59,17 @@ function pick(name: string | null) {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  height: 32px;
-  padding: 0 12px 0 14px;
-  border: 0;
+  height: 40px;
+  padding: 0 14px 0 16px;
+  border: 0.5px solid var(--glass-border);
   border-radius: 999px;
-  background: var(--surface);
-  color: var(--text-2);
+  background: var(--glass-strong);
+  color: var(--text);
   font-size: 15px;
   font-weight: 600;
   cursor: pointer;
 }
 .toggle.active { background: #fff; color: #000; }
-.menu { top: 40px; right: 0; }
+.menu { top: 48px; right: 0; }
 .count { color: var(--text-3); font-size: 15px; }
 </style>

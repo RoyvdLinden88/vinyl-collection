@@ -36,16 +36,6 @@ onMounted(ensureLoaded)
 
 <template>
   <main class="page">
-    <div class="topbar">
-      <span />
-      <div class="pill-group glass">
-        <SortMenu v-model="sort" />
-        <NuxtLink to="/beheer/nieuw" class="icon-btn" aria-label="Plaat toevoegen">
-          <AppIcon name="plus" />
-        </NuxtLink>
-      </div>
-    </div>
-
     <div class="summary">
       <span>
         <template v-if="loaded">
@@ -53,7 +43,15 @@ onMounted(ensureLoaded)
           {{ records.length === 1 ? 'plaat' : 'platen' }}
         </template>
       </span>
-      <GenreMenu v-if="genreCounts.length" v-model="genre" :genres="genreCounts" />
+      <div class="actions">
+        <GenreMenu v-if="genreCounts.length" v-model="genre" :genres="genreCounts" />
+        <div class="pill-group glass">
+          <SortMenu v-model="sort" />
+          <NuxtLink to="/beheer/nieuw" class="icon-btn" aria-label="Plaat toevoegen">
+            <AppIcon name="plus" />
+          </NuxtLink>
+        </div>
+      </div>
     </div>
 
     <label class="search">
@@ -79,9 +77,27 @@ onMounted(ensureLoaded)
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  min-height: 32px;
-  margin: 12px 0 14px;
+  margin: 4px 0 16px;
   color: var(--text-2);
   font-size: 15px;
 }
+.actions {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+/* On the black page a backdrop blur adds nothing, and it would trap the
+   pop-up menus beneath the content below. */
+.actions .pill-group,
+.actions :deep(.toggle:not(.active)) {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  background: var(--surface);
+}
+
+/* Everything in this row is 40px tall, matching the genre button. */
+.pill-group { height: 40px; padding: 0 2px; }
+.pill-group :deep(.icon-btn) { width: 40px; height: 38px; }
 </style>
