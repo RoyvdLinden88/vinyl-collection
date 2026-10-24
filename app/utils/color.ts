@@ -25,3 +25,14 @@ export function dominantColor(source: CanvasImageSource): string {
   const hex = (v: number) => Math.round(v / total).toString(16).padStart(2, '0')
   return `#${hex(r)}${hex(g)}${hex(b)}`
 }
+
+/** Black or white, whichever reads better on top of `hex`. */
+export function readableOn(hex: string): '#000' | '#fff' {
+  const n = Number.parseInt(hex.slice(1), 16)
+  const [r, g, b] = [n >> 16, (n >> 8) & 255, n & 255].map((v) => {
+    const c = v / 255
+    return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4
+  }) as [number, number, number]
+  const luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b
+  return luminance > 0.18 ? '#000' : '#fff'
+}

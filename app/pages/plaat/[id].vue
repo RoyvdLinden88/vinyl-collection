@@ -7,6 +7,8 @@ const root = ref<HTMLElement | null>(null)
 const goBack = useSwipeBack(root)
 
 const record = computed(() => records.value.find(r => r.id === route.params.id))
+// The page's main colour, taken from the cover; Spotify green as fallback.
+const accent = computed(() => record.value?.cover_color ?? '#1ed760')
 const trackCount = computed(() => record.value?.sides.reduce((n, s) => n + s.tracks.length, 0) ?? 0)
 
 const meta = computed(() => {
@@ -57,6 +59,23 @@ onMounted(() => {
           <div class="sleeve" :style="{ backgroundColor: record.cover_color ?? undefined }">
             <img v-if="record.cover_url" :src="record.cover_url" :alt="`Hoes van ${record.title}`">
           </div>
+          <a
+            v-if="record.spotify_url"
+            :href="record.spotify_url"
+            target="_blank"
+            rel="noopener"
+            class="spotify"
+            aria-label="Beluister op Spotify"
+          >
+            <svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true">
+              <circle cx="12" cy="12" r="12" :fill="accent" />
+              <g fill="none" :stroke="readableOn(accent)" stroke-linecap="round">
+                <path d="M6 9.2c4-1.2 8.6-.9 12 1.1" stroke-width="2" />
+                <path d="M6.8 12.5c3.3-.9 7-.6 9.8 1" stroke-width="1.7" />
+                <path d="M7.4 15.6c2.6-.7 5.4-.5 7.6.8" stroke-width="1.4" />
+              </g>
+            </svg>
+          </a>
         </div>
 
         <NuxtLink :to="`/artiest/${encodeURIComponent(record.artist)}`" class="artist">
@@ -110,6 +129,20 @@ onMounted(() => {
   box-shadow: 0 18px 45px rgba(0, 0, 0, 0.55);
 }
 .sleeve img { width: 100%; height: 100%; object-fit: cover; }
+
+/* Bottom right beside the sleeve, where the record has already curved away. */
+.spotify {
+  position: absolute;
+  z-index: 2;
+  left: calc(100% + 10px);
+  bottom: 0;
+  display: block;
+  border-radius: 50%;
+  /* A light ring keeps it visible when the cover colour matches the backdrop. */
+  box-shadow: 0 0 0 1.5px rgba(255, 255, 255, 0.35), 0 6px 16px rgba(0, 0, 0, 0.45);
+}
+.spotify svg { display: block; }
+.spotify:active { transform: scale(0.92); }
 
 /* The record sliding out of the sleeve. */
 .disc {

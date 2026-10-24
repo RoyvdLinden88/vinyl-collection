@@ -19,6 +19,7 @@ const form = reactive({
   genres: [] as string[],
   purchased_at: '',
   notes: '',
+  spotify_url: '',
   sides: [{ name: 'A', text: '' }, { name: 'B', text: '' }]
 })
 const cover = ref<PickedCover | null>(null)
@@ -36,6 +37,7 @@ watch(existing, (record) => {
   form.genres = [...(record.genres ?? [])]
   form.purchased_at = record.purchased_at ?? ''
   form.notes = record.notes ?? ''
+  form.spotify_url = record.spotify_url ?? ''
   form.sides = record.sides.length
     ? record.sides.map(s => ({ name: s.name, text: formatTracks(s.tracks) }))
     : [{ name: 'A', text: '' }]
@@ -100,6 +102,7 @@ async function submit() {
       genres: form.genres,
       purchased_at: form.purchased_at.trim() || null,
       notes: form.notes.trim() || null,
+      spotify_url: form.spotify_url.trim() || null,
       sides: form.sides
         .map(s => ({ name: s.name.trim() || '?', tracks: parseTracks(s.text) }))
         .filter(s => s.tracks.length),
@@ -197,6 +200,19 @@ onMounted(ensureLoaded)
           <label class="field">
             <span>Bijzonderheden</span>
             <textarea v-model="form.notes" class="input" rows="3" placeholder="Bijv. transparant rood vinyl, gelimiteerde oplage" />
+          </label>
+
+          <label class="field">
+            <span>Spotify-link</span>
+            <input
+              v-model="form.spotify_url"
+              class="input"
+              type="url"
+              inputmode="url"
+              placeholder="https://open.spotify.com/album/…"
+              autocapitalize="off"
+              autocorrect="off"
+            >
           </label>
 
           <datalist id="artist-options">

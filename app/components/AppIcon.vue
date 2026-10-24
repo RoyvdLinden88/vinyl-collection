@@ -4,6 +4,7 @@ const props = withDefaults(defineProps<{ name: string, size?: number }>(), { siz
 const paths: Record<string, string> = {
   'back': 'M15 5l-7 7 7 7',
   'chevron': 'M9 6l6 6-6 6',
+  'down': 'M6 9l6 6 6-6',
   'plus': 'M12 5v14M5 12h14',
   'sort': 'M4 7h16M7 12h10M10 17h4',
   'search': 'M11 18a7 7 0 1 0 0-14 7 7 0 0 0 0 14zM16.5 16.5L21 21',

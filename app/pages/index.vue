@@ -18,6 +18,10 @@ watch(sort, (value) => {
 const query = ref('')
 const genre = useState<string | null>('genre-filter', () => null)
 
+const genreCounts = computed(() =>
+  genres.value.map(name => ({ name, count: records.value.filter(r => r.genres?.includes(name)).length }))
+)
+
 const visible = computed(() => {
   const q = query.value.trim().toLowerCase()
   const filtered = records.value.filter(r =>
@@ -42,30 +46,20 @@ onMounted(ensureLoaded)
       </div>
     </div>
 
-    <h1 class="large-title">LP-Collectie</h1>
-    <p class="subtitle">
-      <template v-if="loaded">{{ records.length }} {{ records.length === 1 ? 'plaat' : 'platen' }}</template>
-      &nbsp;
-    </p>
+    <div class="summary">
+      <span>
+        <template v-if="loaded">
+          <template v-if="visible.length !== records.length">{{ visible.length }} van </template>{{ records.length }}
+          {{ records.length === 1 ? 'plaat' : 'platen' }}
+        </template>
+      </span>
+      <GenreMenu v-if="genreCounts.length" v-model="genre" :genres="genreCounts" />
+    </div>
 
     <label class="search">
       <AppIcon name="search" :size="18" />
       <input v-model="query" type="search" placeholder="Artiest, album of genre" enterkeyhint="search">
     </label>
-
-    <div v-if="genres.length" class="chips">
-      <button type="button" class="chip" :class="{ active: !genre }" @click="genre = null">Alle</button>
-      <button
-        v-for="g in genres"
-        :key="g"
-        type="button"
-        class="chip"
-        :class="{ active: genre === g }"
-        @click="genre = genre === g ? null : g"
-      >
-        {{ g }}
-      </button>
-    </div>
 
     <p v-if="error" class="empty error-text">
       Kon de collectie niet laden: {{ error }}
@@ -80,13 +74,14 @@ onMounted(ensureLoaded)
 </template>
 
 <style scoped>
-.chips {
+.summary {
   display: flex;
-  gap: 8px;
-  margin: -4px calc(-1 * var(--gutter)) 20px;
-  padding: 0 var(--gutter);
-  overflow-x: auto;
-  scrollbar-width: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 32px;
+  margin: 12px 0 14px;
+  color: var(--text-2);
+  font-size: 15px;
 }
-.chips::-webkit-scrollbar { display: none; }
 </style>

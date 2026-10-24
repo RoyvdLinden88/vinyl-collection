@@ -18,6 +18,7 @@ export interface VinylRecord {
   sides: Side[]
   purchased_at: string | null
   notes: string | null
+  spotify_url: string | null
   cover_url: string | null
   cover_path: string | null
   cover_color: string | null

@@ -44,33 +44,5 @@ function pick(key: SortKey) {
 
 <style scoped>
 .sort { position: relative; }
-.scrim { position: fixed; inset: 0; z-index: 60; }
-.menu {
-  position: absolute;
-  z-index: 61;
-  top: 50px;
-  right: -46px;
-  width: 230px;
-  padding: 6px 0;
-  border-radius: 16px;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55);
-}
-.menu-title {
-  padding: 6px 16px 4px;
-  color: var(--text-2);
-  font-size: 13px;
-}
-.menu-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  padding: 11px 16px;
-  border: 0;
-  background: none;
-  font-size: 17px;
-  text-align: left;
-  cursor: pointer;
-}
-.menu-item:active { background: rgba(255, 255, 255, 0.08); }
+.menu { top: 50px; right: -46px; }
 </style>

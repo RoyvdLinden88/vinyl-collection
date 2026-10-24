@@ -2,7 +2,7 @@
 const route = useRoute()
 
 const tabs = [
-  { to: '/', label: 'LP-Collectie', icon: 'disc', match: (p: string) => p === '/' || p.startsWith('/plaat') },
+  { to: '/', label: 'Collectie', icon: 'disc', match: (p: string) => p === '/' || p.startsWith('/plaat') },
   { to: '/artiesten', label: 'Artiesten', icon: 'person', match: (p: string) => p.startsWith('/artiest') },
   { to: '/beheer', label: 'Beheer', icon: 'sliders', match: (p: string) => p.startsWith('/beheer') }
 ]

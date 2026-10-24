@@ -17,6 +17,7 @@ create table if not exists public.records (
 
 -- Added later; safe to run again on an existing table.
 alter table public.records add column if not exists genres text[] not null default '{}';
+alter table public.records add column if not exists spotify_url text;
 
 create index if not exists records_artist_idx on public.records (artist);
 
